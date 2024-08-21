@@ -17,7 +17,7 @@ pipeline {
                 script {
                     // Deploy the code to the server
                     // Example: Using rsync to deploy to the server
-                    sshagent(['ssh-root']) {
+                    sshagent(['ssh-root-dev']) {
                         sh 'sudo apt update'
                     } 
                 }
