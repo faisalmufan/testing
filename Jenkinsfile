@@ -2,73 +2,90 @@ pipeline {
     agent any
 
     environment {
+        // Set up environment variables if necessary
         PHP_VERSION = '8.2'
         COMPOSER_HOME = '/var/www/.composer'
     }
 
     stages {
+        // stage('Checkout') {
+        //     steps {
+        //         // Checkout the code from the repository
+        //         git branch: 'main', url: 'https://your-repo-url.git'
+        //     }
+        // }
 
         stage('Install Dependencies') {
             steps {
-                sh 'composer install --prefer-dist --no-interaction --optimize-autoloader --no-suggest'
+                script {
+                    // Ensure Composer is installed
+                    sh 'composer install --prefer-dist --no-interaction --optimize-autoloader --no-suggest'
+                }
             }
         }
 
         stage('Static Analysis') {
-            when {
-                expression {
-                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME.startsWith('feature/')
-                }
-            }
             steps {
-                sh 'vendor/bin/phpstan analyse'
+                script {
+                    // Run PHPStan or another static analysis tool
+                    sh 'vendor/bin/phpstan analyse'
+                }
             }
         }
 
         stage('Code Style Check') {
-            when {
-                expression {
-                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME.startsWith('feature/')
-                }
-            }
             steps {
-                sh 'vendor/bin/phpcs --standard=PSR12 src/'
+                script {
+                    // Run PHP CodeSniffer for coding standards
+                    sh 'vendor/bin/phpcs --standard=PSR12 src/'
+                }
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                sh 'vendor/bin/phpunit --coverage-text --colors=always'
+                script {
+                    // Run PHPUnit tests
+                    sh 'vendor/bin/phpunit --coverage-text --colors=always'
+                }
             }
         }
 
         stage('Build') {
             steps {
-                sh 'composer dump-autoload -o'
+                script {
+                    // Build the application (e.g., optimize autoloader)
+                    sh 'composer dump-autoload -o'
+                }
             }
         }
 
-        stage('Deploy to Staging') {
-            when {
-                branch 'develop'
-            }
+        stage('Security Checks') {
             steps {
-                sh 'rsync -avz ./ user@staging-server:/path/to/staging/deploy/'
+                script {
+                    // Run security analysis with tools like PHP Security Checker
+                    sh 'vendor/bin/php-security-checker'
+                }
             }
         }
 
-        stage('Deploy to Production') {
+        stage('Deploy') {
             when {
                 branch 'main'
             }
             steps {
-                sh 'rsync -avz ./ user@production-server:/path/to/production/deploy/'
+                script {
+                    // Deploy the code to the server
+                    // Example: Using rsync to deploy to the server
+                    sh 'rsync -avz --exclude="*.env" ./ user@server:/path/to/deploy/'
+                }
             }
         }
     }
 
     post {
         always {
+            // Cleanup steps, notifications, etc.
             echo 'Pipeline completed!'
         }
 
@@ -81,6 +98,7 @@ pipeline {
         }
 
         cleanup {
+            // Optional: Delete any temporary files or directories
             deleteDir()
         }
     }
