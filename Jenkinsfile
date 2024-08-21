@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent de
 
     environment {
         // Set up environment variables if necessary
@@ -13,55 +13,55 @@ pipeline {
             steps {
                 script {
                     // Ensure Composer is installed
-                    echo 'composer install --prefer-dist --no-interaction --optimize-autoloader --no-suggest'
+                    sh  'composer install --prefer-dist --no-interaction --optimize-autoloader --no-suggest'
                 }
             }
         }
 
-        // stage('Static Analysis') {
-        //     steps {
-        //         script {
-        //             // Run PHPStan or another static analysis tool
-        //             sh 'vendor/bin/phpstan analyse'
-        //         }
-        //     }
-        // }
+        stage('Static Analysis') {
+            steps {
+                script {
+                    // Run PHPStan or another static analysis tool
+                    sh 'vendor/bin/phpstan analyse'
+                }
+            }
+        }
 
-        // stage('Code Style Check') {
-        //     steps {
-        //         script {
-        //             // Run PHP CodeSniffer for coding standards
-        //             sh 'vendor/bin/phpcs --standard=PSR12 src/'
-        //         }
-        //     }
-        // }
+        stage('Code Style Check') {
+            steps {
+                script {
+                    // Run PHP CodeSniffer for coding standards
+                    sh 'vendor/bin/phpcs --standard=PSR12 src/'
+                }
+            }
+        }
 
-        // stage('Run Unit Tests') {
-        //     steps {
-        //         script {
-        //             // Run PHPUnit tests
-        //             sh 'vendor/bin/phpunit --coverage-text --colors=always'
-        //         }
-        //     }
-        // }
+        stage('Run Unit Tests') {
+            steps {
+                script {
+                    // Run PHPUnit tests
+                    sh 'vendor/bin/phpunit --coverage-text --colors=always'
+                }
+            }
+        }
 
-        // stage('Build') {
-        //     steps {
-        //         script {
-        //             // Build the application (e.g., optimize autoloader)
-        //             sh 'composer dump-autoload -o'
-        //         }
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                script {
+                    // Build the application (e.g., optimize autoloader)
+                    sh 'composer dump-autoload -o'
+                }
+            }
+        }
 
-        // stage('Security Checks') {
-        //     steps {
-        //         script {
-        //             // Run security analysis with tools like PHP Security Checker
-        //             sh 'vendor/bin/php-security-checker'
-        //         }
-        //     }
-        // }
+        stage('Security Checks') {
+            steps {
+                script {
+                    // Run security analysis with tools like PHP Security Checker
+                    sh 'vendor/bin/php-security-checker'
+                }
+            }
+        }
 
         stage('Deploy') {
             when {
