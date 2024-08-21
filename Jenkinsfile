@@ -1,5 +1,7 @@
 pipeline {
-    agent dev-server
+    agent {
+  label 'dev-server'
+}
 
     environment {
         // Set up environment variables if necessary
