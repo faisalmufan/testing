@@ -1,11 +1,9 @@
 pipeline {
-    agent {
-  label 'dev-server'
-}
+    agent any
 
     environment {
         // Set up environment variables if necessary
-        PHP_VERSION = '8.2'
+        PHP_VERSION = '8.3'
         COMPOSER_HOME = '/var/www/.composer'
     }
 
