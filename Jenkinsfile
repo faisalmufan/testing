@@ -1,5 +1,5 @@
 pipeline {
-    agent de
+    agent dev-server
 
     environment {
         // Set up environment variables if necessary
