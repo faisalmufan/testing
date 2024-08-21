@@ -18,7 +18,7 @@ pipeline {
                     // Deploy the code to the server
                     // Example: Using rsync to deploy to the server
                     sshagent(['ssh-wisnu']) {
-                        sh 'rsync -avz --exclude="*.env" ./ wisnu@192.168.23.87:/var/www/html'
+                        sh 'scp ./ wisnu@192.168.23.87:/var/www/html'
                     } 
                 }
             }
