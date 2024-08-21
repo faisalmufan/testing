@@ -11,16 +11,14 @@ pipeline {
 
         stage('Deploy') {
             when {
-                branch 'develop'
+                branch 'main'
             }
             steps {
-                // script {
-                //     // Deploy the code to the server
-                //     // Example: Using rsync to deploy to the server
-                //     // echo 'rsync -avz --exclude="*.env" ./ user@server:/path/to/deploy/'
-                // }
-
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'prod-test', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'sudo composer update', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/var/www/html/$BUILD_NUMBER', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '/var/www/html')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)]
+                script {
+                    // Deploy the code to the server
+                    // Example: Using rsync to deploy to the server
+                   sh 'rsync -avz --exclude="*.env" ./ wisnu@192.168.23.87:/var/www/html'
+                }
             }
         }
     }
