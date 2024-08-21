@@ -71,7 +71,7 @@ pipeline {
                 script {
                     // Deploy the code to the server
                     // Example: Using rsync to deploy to the server
-                    sh 'rsync -avz --exclude="*.env" ./ user@server:/path/to/deploy/'
+                    echo 'rsync -avz --exclude="*.env" ./ user@server:/path/to/deploy/'
                 }
             }
         }
