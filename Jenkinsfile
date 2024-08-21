@@ -8,12 +8,6 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         // Checkout the code from the repository
-        //         git branch: 'main', url: 'https://your-repo-url.git'
-        //     }
-        // }
 
         stage('Install Dependencies') {
             steps {
