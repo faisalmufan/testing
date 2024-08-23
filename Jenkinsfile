@@ -33,7 +33,7 @@ pipeline{
             steps{
                 script{
                     sshagent(credentials: ['ssh-wisnu'], ignoreMissing: true) {
-                        sh 'rsync -avz ./ wisnu@192.168.23.78:/home/wisnu/'
+                        sh 'rsync -avz ./ wisnu@192.168.23.78:/home/wisnu/jenkins'
                     }
                 }
             }
