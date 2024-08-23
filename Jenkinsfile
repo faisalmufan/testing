@@ -19,7 +19,8 @@ pipeline{
                 ok 'yes'
                 }
             steps{
-                sh 'phpunit --log-junit test-results.xml'
+                sh 'composer require --dev mds-agenturgruppe/php-code-checker:^3.0'
+                sh 'vendor/bin/mds-code-check'
                 
             }
         }
