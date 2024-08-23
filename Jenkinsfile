@@ -27,7 +27,7 @@ pipeline{
 
         stage('deploy code'){
             when{
-                branch 'main'
+                branch 'develop'
                 beforeInput true
             }
             steps{
