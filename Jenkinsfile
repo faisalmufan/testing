@@ -13,12 +13,13 @@ pipeline{
                 beforeOptions true
                 // beforeInput true
             }
-            steps{
-                sh './vendor/bin/phpinit'
-                input{
+            input{
                     message "Apakah tidak ada bug atau error ?"
                     id "simple-input"
                 }
+            steps{
+                sh './vendor/bin/phpinit'
+                
             }
         }
 
@@ -27,8 +28,10 @@ pipeline{
                 branch 'main'
                 beforeInput true
             }
-            sshagent(credentials: ['ssh-wisnu'], ignoreMissing: true) {
-                sh 'rsync -avz ./ wisnu@192.168.23.78:/home/wisnu/'
+            script{
+                sshagent(credentials: ['ssh-wisnu'], ignoreMissing: true) {
+                    sh 'rsync -avz ./ wisnu@192.168.23.78:/home/wisnu/'
+                }
             }
         }
 
