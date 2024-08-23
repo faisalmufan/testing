@@ -9,10 +9,9 @@ pipeline {
 
     stages {
         stage('checking code'){
-            when{
-                branch 'develop'
+            steps{
+                echo "lanjut"
             }
-            echo "lanjut"
         }
 
         stage('Deploy') {
