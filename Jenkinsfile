@@ -13,10 +13,11 @@ pipeline{
                 beforeOptions true
                 // beforeInput true
             }
-            // input{
-            //         message "Apakah tidak ada bug atau error ?"
-            //         id "simple-input"
-            //     }
+            input {
+                message 'halo guys'
+                id '11'
+                ok 'yes'
+                }
             steps{
                 sh './vendor/bin/phpinit'
                 
