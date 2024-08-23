@@ -1,44 +1,36 @@
-pipeline {
-    agent any
-
-    environment {
-        // Set up environment variables if necessary
-        PHP_VERSION = '8.3'
-        COMPOSER_HOME = '/var/www/.composer'
-    }
-
-    stages {
+pipeline{
+    agent any 
+    stages{
         stage('checking code'){
             steps{
-                echo "lanjut"
+              echo "checking code"
+              sh 'composer install'
             }
         }
-
-        stage('Deploy') {
-            steps {
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'prod-test', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/var/www/html/', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '.')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)]) 
+        stage('testing code'){
+            when{
+                branch 'develop'
+                beforeOptions true
+                // beforeInput true
+            }
+            steps{
+                sh './vendor/bin/phpinit'
+                input{
+                    message 'apakah sudah selai di testing ??'
+                    id 'id-massage'
                 }
             }
         }
+
+        stage('deploy code'){
+            when{
+                branch 'main'
+                beforeInput true
+            }
+            sshagent(credentials: ['ssh-wisnu'], ignoreMissing: true) {
+                sh 'rsync -avz ./ wisnu@192.168.23.78:/home/wisnu/'
+            }
+        }
+
     }
-
-    post {
-        always {
-            // Cleanup steps, notifications, etc.
-            echo 'Pipeline completed!'
-        }
-
-        success {
-            echo 'Build was successful!'
-        }
-
-        failure {
-            echo 'Build failed!'
-        }
-
-        cleanup {
-            // Optional: Delete any temporary files or directories
-            deleteDir()
-        }
-    }
-
+}
