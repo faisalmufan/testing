@@ -8,18 +8,18 @@ pipeline {
     }
 
     stages {
+        stage('checking code'){
+            when{
+                branch 'develop'
+            }
+        }
 
         stage('Deploy') {
             when {
                 branch 'develop'
             }
             steps {
-                script {
-                    // Deploy the code to the server
-                    // Example: Using rsync to deploy to the server
-                    sshagent(['ssh-root-dev']) {
-                        sh 'sudo apt update'
-                    } 
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'prod-test', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/var/www/html/', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '.')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)]) 
                 }
             }
         }
