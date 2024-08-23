@@ -16,8 +16,8 @@ pipeline{
             steps{
                 sh './vendor/bin/phpinit'
                 input{
-                    message 'apakah sudah selai di testing ??'
-                    id 'id-massage'
+                    message "Apakah tidak ada bug atau error ?"
+                    id "simple-input"
                 }
             }
         }
