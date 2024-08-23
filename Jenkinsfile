@@ -19,7 +19,7 @@ pipeline{
                 ok 'yes'
                 }
             steps{
-                sh './vendor/bin/phpinit'
+                sh 'phpunit --log-junit test-results.xml'
                 
             }
         }
