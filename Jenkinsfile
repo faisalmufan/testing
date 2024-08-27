@@ -1,5 +1,8 @@
 pipeline{
     agent any 
+    triggers {
+        upstream 'develop, '
+        }
     stages{
         stage('checking code'){
             steps{
