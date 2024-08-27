@@ -41,7 +41,7 @@ pipeline{
             steps{
                 script{
                     sshagent(credentials: ['ssh-wisnu'], ignoreMissing: true) {
-                        sh 'rsync -avz  --exclude-from='.rsync-exclude' ./ wisnu@192.168.23.78:/home/wisnu/jenkins'
+                        sh 'rsync -avz  --exclude-from=.rsync-exclude ./ wisnu@192.168.23.78:/home/wisnu/jenkins'
                     }
                 }
             }
