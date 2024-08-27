@@ -11,11 +11,11 @@ pipeline{
             }
         }
         stage('testing code'){
-            when{
-                branch 'develop'
-                beforeOptions true
-                // beforeInput true
-            }
+            // when{
+            //     branch 'develop'
+            //     beforeOptions true
+            //     // beforeInput true
+            // }
              steps{
                 sh 'composer require --dev mds-agenturgruppe/php-code-checker:^3.0'
                 sh 'vendor/bin/mds-code-check'
