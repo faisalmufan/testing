@@ -13,27 +13,32 @@ pipeline{
                 beforeOptions true
                 // beforeInput true
             }
-            input {
-                message 'halo guys'
-                id '11'
-                ok 'yes'
-                }
-            steps{
+             steps{
                 sh 'composer require --dev mds-agenturgruppe/php-code-checker:^3.0'
                 sh 'vendor/bin/mds-code-check'
                 
             }
+            input {
+                message 'apakah sudah selesai di testing '
+                id '11'
+                ok 'yes'
+                }
         }
 
         stage('deploy code'){
             when{
-                branch 'develop'
+                branch 'main'
                 beforeInput true
             }
+             input {
+                message 'sudah yakin untuk deploy '
+                id '12'
+                ok 'yes'
+                }
             steps{
                 script{
                     sshagent(credentials: ['ssh-wisnu'], ignoreMissing: true) {
-                        sh 'rsync -avz ./ wisnu@192.168.23.78:/home/wisnu/jenkins'
+                        sh 'rsync -avz --exclude=.env ./ wisnu@192.168.23.78:/home/wisnu/jenkins'
                     }
                 }
             }
